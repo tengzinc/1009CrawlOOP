@@ -160,7 +160,8 @@ class socialMedia:
         for x in self.__database.printnews(self.__socialMediaType):
             self.__overallSentiment+=self.__analyzeSentiment(x[3])
             rowCount+=1
-        self.__overallSentiment=self.__overallSentiment/rowCount    
+        if rowCount!=0:
+            self.__overallSentiment=self.__overallSentiment/rowCount    
 
     def __categorizeSentiment(self):
         """

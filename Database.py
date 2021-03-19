@@ -10,7 +10,22 @@ class Database:
     ----------
     self._db : Object
         Database connection object to access database
-
+    '''
+    :Methods
+    _connection():
+        private method to set up connection to database.
+    createTable():
+        Create Table in the database, if table exist it will truncate table to clear data previously
+    disconnect():
+        Disconnect from database
+    insert(type, user, text,likes,datecreate,commented):
+        inserting data into MYSQL database
+    search(keyword):
+        search keyword to look for news
+    truncatetable():
+         remove item from table that was saved previously
+    printnews(category):
+        Printing news base on social media (reddit or twitter)
     """
 
     def __init__(self, host, user, password, database):
@@ -26,9 +41,9 @@ class Database:
         self.password = password
         self.database = database
         self.charset = "utf8mb4"
-        self._connection()  # call _connection function
+        self.__connection()  # call _connection function
 
-    def _connection(self):  # private method
+    def __connection(self):  # private method
         """
             Create connection between python and mysql
             ----------
@@ -42,21 +57,20 @@ class Database:
                 charset=self.charset
             )
             self._db = conn
+            print("\ndatabase connected")
         except Error as err:
             print("error while connecting to database", err)
 
-    def createTable(self):  # not required anymore as the database is inside .sql script
+    def createTable(self):
         """
         Create Table in the database, if table exist it will truncate table to clear data previously
         :return:
+        None
         """
         cursor = self._db.cursor()
-        sql = "CREATE TABLE crawleddata (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, type VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL,user VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL," \
-              "text VARCHAR(10000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL NULL," \
+        sql = "CREATE TABLE crawleddata (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, type VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL,user VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL,"\
+              "text VARCHAR(10000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL NULL,"\
               "likes INT , dates DATETIME , commented INT )"
-        # cursor.execute("CREATE TABLE IF NOT EXISTS crawleddata (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, type VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL,user VARCHAR(100) COLLATE utf8mb4_unicode_ci NOT NULL,"
-        # "text VARCHAR(10000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL NULL,"
-        # "likes INT , dates DATETIME , commented INT )")
         try:
             cursor.execute(sql)
             self._db.commit()  # to update database
@@ -66,14 +80,16 @@ class Database:
             print("table truncated")
         cursor.close()
 
-    def disconnect(self):  # put _ to make it private
+    def disconnect(self):  # _ to make it private
         """
         Disconnect from database
+        :return:
+        None
         """
         self._db.close()
         print("connection close")
 
-    def insert(self, type, user, text, likes, datecreate, commented):  # TAKES IN 6 PARAMETER
+    def insert(self, type, user, text, likes, datecreate, commented):
         """
         inserting data into MYSQL database
         :param type: str. type of post (reddit or twitter)
@@ -82,8 +98,9 @@ class Database:
         :param likes: str. the amount of likes for the post
         :param datecreate: str. the date and time of the post that was created
         :param commented: str. number of comments for the post
+        :return:
+        None
         """
-        # enter whatever or grab whatever put inside here to insert
         cursor = self._db.cursor()  # access sql
         val = (type, user, text, likes, datecreate, commented)
         try:
@@ -96,35 +113,33 @@ class Database:
 
     def search(self, keyword):
         """
-        search keyword to look for news
+        search keyword to find news
         :param keyword: str
         :return:
          result: str
         """
         cursor = self._db.cursor()
-        sql = "SELECT * FROM crawleddata WHERE text LIKE \"%" + keyword + "%\""
-        # ALTER TABLE crawleddata ADD FULLTEXT (text);
-        # sql =  "SELECT * FROM crawleddata WHERE MATCH(text) AGAINST ('" +keyword +"')"
+        sql = "SELECT * FROM crawleddata WHERE text LIKE \"%"+keyword+"%\""
         try:
             cursor.execute(sql)
+            result = cursor.fetchall()
         except Error as err:
             print("error searching for keyword. ", err)
-        result = cursor.fetchall()
-        # for result in x:
-        #   print(result) #print result here
         cursor.close()
         return result
 
     def truncatetable(self):
         """
         to remove item from table(crawleddata) that was saved previously
+        :return:
+        None
         """
         cursor = self._db.cursor()
         try:
-            cursor.execute("TRUNCATE TABLE crawleddata")  # THIS IS TO REMOVE ITEM FROM THE TABLE SAVED PREVIOUSLY
+            # THIS IS TO REMOVE ITEM FROM THE TABLE SAVED PREVIOUSLY
+            cursor.execute("TRUNCATE TABLE crawleddata")
         except Error as err:
             print("error deleteing table", err)
-        # updating code here
         cursor.close()
 
     def printnews(self, category):  # print specific news
@@ -135,20 +150,19 @@ class Database:
         result: str
         """
         cursor = self._db.cursor()
-        if (category == "twitter"):
+        if(category.lower() == "twitter"):
             type = "tweet"
-        elif (category == "reddit"):
+        elif(category.lower() == "reddit"):
             type = "post"
         else:
-            print("type only twitter or reddit")
-            exit()
-        sql = "SELECT * FROM crawleddata WHERE type = '" + type + "'"
+            print("no such news, type only twitter or reddit")
+            type = category
         try:
-            cursor.execute(sql)  # select all from table(comment)
+            sql = "SELECT * FROM crawleddata WHERE type = '" + type + "'"
+            cursor.execute(sql)   # select all from table(comment)
+            result = cursor.fetchall()
         except Error as err:
             print("error printing news", err)
-        result = cursor.fetchall()
-        # for x in result:
-        #   print(x)
+            result = None
         cursor.close()
         return result
