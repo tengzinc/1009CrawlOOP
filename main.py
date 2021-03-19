@@ -1,5 +1,5 @@
 import config as c
-from Database import Database
+from Database import Db
 from RedditCrawler import RedditCrawler
 from socialMediaObjectCreator import socialMedia
 from TwitterCrawler import TwitterCrawler

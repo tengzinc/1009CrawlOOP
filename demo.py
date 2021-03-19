@@ -1,7 +1,6 @@
 from tkinter.ttk import Treeview
 from Database import Database
 import numpy as np
-import matplotlib.pyplot as plt; plt.rcdefault 
 import matplotlib.pyplot as plt
 import seaborn as sns 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
