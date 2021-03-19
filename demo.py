@@ -1,10 +1,12 @@
 from tkinter.ttk import Treeview
-import Database as Database
+from Database import Database
 import numpy as np
+import matplotlib.pyplot as plt; plt.rcdefault 
 import matplotlib.pyplot as plt
+import seaborn as sns 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-import TwitterCrawler as TwitterCrawler
+from TwitterCrawler import TwitterCrawler
 from RedditCrawler import RedditCrawler
 import tkinter as tk
 import tkinter.font as font
@@ -14,9 +16,9 @@ from tkinter import simpledialog
 import mysql.connector
 
 i = 0
-twcrawl = TwitterCrawler.TwitterCrawler()
+twcrawl = TwitterCrawler("OrRuKndlEY6Xx3sOEuWaW3dPx","hwXN4qFNrCSRTy3k8tZWJ5uqJREGI8gJVDhpJj7YZ5Gs3PLfbL","1368589570518831106-JNKPyMGTUgifprCjUJqFZoVa0NzOSx","Yqe9FSSawbubSLQdv7Skifbh02gVnmsXxRF3Xow2upl5U")
 rdcrawl = RedditCrawler("Shopping_habits", "zSqCr7ZeezCMgQ", "-K97i2uEaVP9ae69IGGJ8HXp7Xz3LA")
-db = Database.Database()
+db = Database("localhost","root","password","sqldatabase")
 myFont = ('Arial', 15, 'bold')
 myFont1 = ('broadway', 15, 'bold')
 
@@ -51,9 +53,12 @@ def window():
 
 # plotting function: To plot the graph
 def plotting():
-    # window()
+    window()
     house_prices = np.random.normal(2000, 2500, 5000)
     plt.hist(house_prices, 50)
+    plt.title('Top words overall')
+    plt.ylabel('word from tweet', fontsize=12)
+    plt.xlabe
     s = plt.show()
     # print("Bar chart")
 
@@ -61,8 +66,8 @@ def plotting():
 # crawldata function: To start the crawling of data from the website
 def crawldata():
     db.truncatetable()
-    twcrawl.crawl()
-    rdcrawl.crawl()
+    twcrawl.crawl(db)
+    rdcrawl.crawl(db)
     messagebox.showinfo("Popup", "Crawl Done")
 
 
@@ -73,7 +78,7 @@ myFont = font.Font(family='Arial', size=15, weight='bold')
 myFont1 = font.Font(family='broadway', size=15, weight='bold')
 frame = tk.Frame(root)
 frame.pack()
-style = ttk.Style()
+#style = ttk.Style()
 
 w = Label(frame,
           text="Welcome to the Crawler Data GUI",
@@ -131,5 +136,5 @@ button3.pack(side=tk.BOTTOM,
              padx=5,
              pady=5)
 
-window(plotting())
+#window(plotting())
 root.mainloop()
