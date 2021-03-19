@@ -30,7 +30,7 @@ class Database:
 
     def __init__(self, host, user, password, database):
         """
-         Construct all the necessary attributes for Database and initialize the logins
+        Construct all the necessary attributes for Database and initialize the logins
         :param host: str. server of the database
         :param user: str. username of the database
         :param password: str. password of the database

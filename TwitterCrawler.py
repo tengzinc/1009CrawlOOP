@@ -63,4 +63,4 @@ class TwitterCrawler(Crawler):
         except TweepError as terr:
             print("Wrong Twitter authentication details!\n", terr)
         except Exception as e:
-            print("Unable to connect to database!\n", e)
+            print("Unable to connect to database!\n",e)
