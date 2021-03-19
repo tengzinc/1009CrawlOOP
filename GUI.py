@@ -111,21 +111,16 @@ class GUI:
 
     # plotting function: To plot the graph
     def plotting(self):
-        a_dictionary = {"a": 1, "b": 2, "c": 3}
-        keys = a_dictionary.keys()
-        values = a_dictionary.values()
-        matplotlib.pyplot.bar(keys, values)
-        # new_dict = {}
-        # for value in word_dict.values():
-        #     if value in word_dict:
-        #        new_dict += 1
-        #    else:
-        #        new_dict = 1
-        #    y = new_dict[value]
-        #    x = word_dict[value]
-        # print(new_dict)
-        # pyplot.plot(x, y)
-        # pyplot.show()
+        key = list(self.redditObject.getCrimeScore().keys())
+        value = list(self.redditObject.getCrimeScore().values())
+        plt.bar(range(len(self.redditObject.getCrimeScore())),value,tick_label=key)
+        plt.xlabel('Category')
+        plt.ylabel('Frequency')
+        plt.title('Keyword Category in the News')
+
+        plt.show()
+
+        print("Plot")
 
     # crawldata function: To start the crawling of data from the website
 
