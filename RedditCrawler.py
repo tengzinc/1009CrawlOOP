@@ -1,4 +1,5 @@
 import praw
+from prawcore import ResponseException
 from datetime import datetime
 from Crawler import Crawler
 
@@ -32,18 +33,11 @@ class RedditCrawler(Crawler):
             secret: str
                 Visit the website to register to receive String "client secret".
         """
-        try:
-            self.reddit = praw.Reddit(
-                client_id=clientId,
-                client_secret=secret,
-                user_agent=topic,
-            )
-            # Test Reddit Connection using Reddit crawl() function
-            for test in self.reddit.subreddit('all').new():
-                break
-        except Exception as e:
-            print("Authentication Failed, Wrong client_id or client_secret.",e)
-            exit()
+        self.reddit = praw.Reddit(
+            client_id=clientId,
+            client_secret=secret,
+            user_agent=topic,
+        )
 
     def crawl(self, db):
         """
@@ -58,10 +52,15 @@ class RedditCrawler(Crawler):
         -------
         None
         """
-        print("Crawling Reddit now...")
-        subreddit = self.reddit.subreddit('Singapore')
-        for post in subreddit.search("jail OR charged OR arrested OR sentenced", limit=None):
-            post.comments.replace_more(limit=None)
-            comment = post.comments.list()
-            db.insert("post", str(post.author), str(post.title), str(post.score),
-                      datetime.utcfromtimestamp(post.created_utc), len(comment))
+        try:
+            print("Crawling Reddit now...")
+            subreddit = self.reddit.subreddit('Singapore')
+            for post in subreddit.search("jail OR charged OR arrested OR sentenced", limit=None):
+                post.comments.replace_more(limit=None)
+                comment = post.comments.list()
+                db.insert("post", str(post.author), str(post.title), str(post.score),
+                          datetime.utcfromtimestamp(post.created_utc), len(comment))
+        except ResponseException as rerror:
+            print("Wrong Reddit authentication details\n", rerror)
+        except Exception as e:
+            print("Unable to connect to the database\n", e)
