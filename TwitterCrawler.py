@@ -1,6 +1,9 @@
+from Crawler import Crawler
 import tweepy
 from tweepy import TweepError
-from Crawler import Crawler
+import re
+import config as c
+
 
 class TwitterCrawler(Crawler):
     """
@@ -19,6 +22,7 @@ class TwitterCrawler(Crawler):
     crawl():
         Crawl Singapore crimes related data from twitter.
     """
+
     def __init__(self, consumer_key, consumer_secret, access_token, token_secret):
         """
         Constructs all the necessary attributes for Tweepy a library to crawl from twitter, and initialize connection to twitter API
@@ -55,10 +59,10 @@ class TwitterCrawler(Crawler):
         try:
             print("Crawling Twitter now...")
             keys = "(charged OR jail OR arrested OR sentenced) AND singapore"
-            for tweet in tweepy.Cursor(self.api.search, lang="en", q=keys+'-filter:retweets').items():
+            for tweet in tweepy.Cursor(self.api.search, lang="en", tweet_mode="extended", q=keys+'-filter:retweets').items():
                 db.insert("tweet", str(tweet.user.screen_name),
-                    str(tweet.text), tweet.favorite_count, tweet.created_at, tweet.retweet_count)
+                          re.sub(r"http\S+", "", tweet.full_text), tweet.favorite_count, tweet.created_at, tweet.retweet_count)
         except TweepError as terr:
-            print("Wrong Twitter authentication details!\n",terr)
+            print("Wrong Twitter authentication details!\n", terr)
         except Exception as e:
-            print("Unable to connect to database!\n",e)
+            print("Unable to connect to database!\n", e)

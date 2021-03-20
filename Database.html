@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module Database</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>Database</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Coj_si%5Cdesktop%5Coop%5Cjavaoop%5Cjavaoop%5Cdatabase.py">c:\users\oj_si\desktop\oop\javaoop\javaoop\database.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="mysql.html">mysql</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="Database.html#Database">Database</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Database">class <strong>Database</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Database">Database</a>(host,&nbsp;user,&nbsp;password,&nbsp;database)<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;used&nbsp;to&nbsp;represent&nbsp;<a href="#Database">Database</a><br>
+'''<br>
+Attributes<br>
+----------<br>
+self.<strong>_db</strong>&nbsp;:&nbsp;Object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Database">Database</a>&nbsp;connection&nbsp;<a href="builtins.html#object">object</a>&nbsp;to&nbsp;access&nbsp;database<br>
+'''<br>
+:Methods<br>
+_connection():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;method&nbsp;to&nbsp;set&nbsp;up&nbsp;connection&nbsp;to&nbsp;database.<br>
+<a href="#Database-createTable">createTable</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;Table&nbsp;in&nbsp;the&nbsp;database,&nbsp;if&nbsp;table&nbsp;exist&nbsp;it&nbsp;will&nbsp;truncate&nbsp;table&nbsp;to&nbsp;clear&nbsp;data&nbsp;previously<br>
+<a href="#Database-disconnect">disconnect</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Disconnect&nbsp;from&nbsp;database<br>
+<a href="#Database-insert">insert</a>(type,&nbsp;user,&nbsp;text,likes,datecreate,commented):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;inserting&nbsp;data&nbsp;into&nbsp;MYSQL&nbsp;database<br>
+<a href="#Database-search">search</a>(keyword):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;search&nbsp;keyword&nbsp;to&nbsp;look&nbsp;for&nbsp;news<br>
+<a href="#Database-truncatetable">truncatetable</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove&nbsp;item&nbsp;from&nbsp;table&nbsp;that&nbsp;was&nbsp;saved&nbsp;previously<br>
+<a href="#Database-printnews">printnews</a>(category):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Printing&nbsp;news&nbsp;base&nbsp;on&nbsp;social&nbsp;media&nbsp;(reddit&nbsp;or&nbsp;twitter)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Database-__init__"><strong>__init__</strong></a>(self, host, user, password, database)</dt><dd><tt>&nbsp;Construct&nbsp;all&nbsp;the&nbsp;necessary&nbsp;attributes&nbsp;for&nbsp;<a href="#Database">Database</a>&nbsp;and&nbsp;initialize&nbsp;the&nbsp;logins<br>
+:param&nbsp;host:&nbsp;str.&nbsp;server&nbsp;of&nbsp;the&nbsp;database<br>
+:param&nbsp;user:&nbsp;str.&nbsp;username&nbsp;of&nbsp;the&nbsp;database<br>
+:param&nbsp;password:&nbsp;str.&nbsp;password&nbsp;of&nbsp;the&nbsp;database<br>
+:param&nbsp;database:&nbsp;str.&nbsp;Schema&nbsp;of&nbsp;the&nbsp;database</tt></dd></dl>
+
+<dl><dt><a name="Database-createTable"><strong>createTable</strong></a>(self)</dt><dd><tt>Create&nbsp;Table&nbsp;in&nbsp;the&nbsp;database,&nbsp;if&nbsp;table&nbsp;exist&nbsp;it&nbsp;will&nbsp;truncate&nbsp;table&nbsp;to&nbsp;clear&nbsp;data&nbsp;previously<br>
+:return:<br>
+None</tt></dd></dl>
+
+<dl><dt><a name="Database-disconnect"><strong>disconnect</strong></a>(self)</dt><dd><tt>Disconnect&nbsp;from&nbsp;database<br>
+:return:<br>
+None</tt></dd></dl>
+
+<dl><dt><a name="Database-insert"><strong>insert</strong></a>(self, type, user, text, likes, datecreate, commented)</dt><dd><tt>inserting&nbsp;data&nbsp;into&nbsp;MYSQL&nbsp;database<br>
+:param&nbsp;type:&nbsp;str.&nbsp;type&nbsp;of&nbsp;post&nbsp;(reddit&nbsp;or&nbsp;twitter)<br>
+:param&nbsp;user:&nbsp;str.&nbsp;user&nbsp;that&nbsp;created&nbsp;the&nbsp;post<br>
+:param&nbsp;text:&nbsp;str.&nbsp;content&nbsp;of&nbsp;the&nbsp;post<br>
+:param&nbsp;likes:&nbsp;str.&nbsp;the&nbsp;amount&nbsp;of&nbsp;likes&nbsp;for&nbsp;the&nbsp;post<br>
+:param&nbsp;datecreate:&nbsp;str.&nbsp;the&nbsp;date&nbsp;and&nbsp;time&nbsp;of&nbsp;the&nbsp;post&nbsp;that&nbsp;was&nbsp;created<br>
+:param&nbsp;commented:&nbsp;str.&nbsp;number&nbsp;of&nbsp;comments&nbsp;for&nbsp;the&nbsp;post<br>
+:return:<br>
+None</tt></dd></dl>
+
+<dl><dt><a name="Database-printnews"><strong>printnews</strong></a>(self, category)</dt><dd><tt>Printing&nbsp;news&nbsp;base&nbsp;on&nbsp;social&nbsp;media&nbsp;(reddit&nbsp;or&nbsp;twitter)<br>
+:param&nbsp;category:&nbsp;str<br>
+:return:<br>
+result:&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="Database-search"><strong>search</strong></a>(self, keyword)</dt><dd><tt>search&nbsp;keyword&nbsp;to&nbsp;find&nbsp;news<br>
+:param&nbsp;keyword:&nbsp;str<br>
+:return:<br>
+&nbsp;result:&nbsp;str</tt></dd></dl>
+
+<dl><dt><a name="Database-truncatetable"><strong>truncatetable</strong></a>(self)</dt><dd><tt>to&nbsp;remove&nbsp;item&nbsp;from&nbsp;table(crawleddata)&nbsp;that&nbsp;was&nbsp;saved&nbsp;previously<br>
+:return:<br>
+None</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

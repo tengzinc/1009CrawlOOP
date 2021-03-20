@@ -11,18 +11,23 @@ from tkinter import simpledialog
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 
 # User Defined Modules
 from Database import Database
 from RedditCrawler import RedditCrawler
 from TwitterCrawler import TwitterCrawler
+from socialMediaObjectCreator import socialMedia
 
 
 class GUI:
     def __init__(self, db, reddit, twitter):
+        self.graph = socialMedia
         self.myFont = ('Arial', 15, 'bold')
         self.myFont1 = ('broadway', 15, 'bold')
         self.db = db
+        self.redditObject = socialMedia(self.db, "reddit")
+        self.twitterObject = socialMedia(self.db, "twitter")
         self.reddit = reddit
         self.twitter = twitter
         self.root = Tk(className=' Crawler Data for Reddit & Twitter')
@@ -34,6 +39,7 @@ class GUI:
                        font="50")
         self.w['font'] = self.myFont1
         self.w.pack(side=tk.TOP)
+
         self.button0 = tk.Button(self.frame,
                                  text="Search",
                                  fg="black",
@@ -42,6 +48,7 @@ class GUI:
         self.button0.pack(side=tk.TOP,
                           padx=5,
                           pady=5)
+
         self.wrapper1 = LabelFrame(self.root, text="Crawl Data")
         self.wrapper1.pack(fill="both", expand="yes", padx=20, pady=10)
         self.trv = ttk.Treeview(self.wrapper1,
@@ -64,6 +71,7 @@ class GUI:
         self.button1.pack(side=tk.BOTTOM,
                           padx=5,
                           pady=5)
+
         self.button2 = tk.Button(self.frame,
                                  text="Plot",
                                  fg="black",
@@ -72,6 +80,7 @@ class GUI:
         self.button2.pack(side=tk.BOTTOM,
                           padx=5,
                           pady=5)
+
         self.button3 = tk.Button(self.frame,
                                  text="Crawl Data",
                                  fg="black",
@@ -82,20 +91,17 @@ class GUI:
                           pady=5)
 
     # Refresh function: To refresh the table
-
     def refresh(self):
         for i in self.trv.get_children():
             self.trv.delete(i)
         # print("table")
 
     # Update function: To update table after the search function
-
     def update(self, rows):
         for i in rows:
             self.trv.insert('', 'end', values=i)
 
     # Search function: To search the keyword
-
     def search(self):
         e = simpledialog.askstring(title="Data Crawled",
                                    prompt="What do you want to search?:")
@@ -110,27 +116,38 @@ class GUI:
     #   newWindow.geometry("300x300")
 
     # plotting function: To plot the graph
+    def tplotting(self):
+        objects = ('scam', 'drug', 'violence', 'sexOffence')
+        y_pos = np.arange(len(objects))
+        performance = [self.redditObject.getCrimeScore()]
+        plt.barh(y_pos, performance, align='center', alpha=0.7)
+        plt.yticks(y_pos, objects)
+        plt.ylabel('Category')
+        plt.xlabel('Frequency')
+        plt.title('Keyword Category in the News')
+
+        plt.show()
+
+        print("Plot")
+    
+    # plotting function: To plot the graph
     def plotting(self):
-        a_dictionary = {"a": 1, "b": 2, "c": 3}
-        keys = a_dictionary.keys()
-        values = a_dictionary.values()
-        matplotlib.pyplot.bar(keys, values)
-        # new_dict = {}
-        # for value in word_dict.values():
-        #     if value in word_dict:
-        #        new_dict += 1
-        #    else:
-        #        new_dict = 1
-        #    y = new_dict[value]
-        #    x = word_dict[value]
-        # print(new_dict)
-        # pyplot.plot(x, y)
-        # pyplot.show()
+        key = list(self.redditObject.getCrimeScore().keys())
+        value = list(self.redditObject.getCrimeScore().values())
+        plt.bar(range(len(self.redditObject.getCrimeScore())),value,tick_label=key)
+        plt.xlabel('Category')
+        plt.ylabel('Frequency')
+        plt.title('Keyword Category in the News')
+
+        plt.show()
+
+        print("Plot")
 
     # crawldata function: To start the crawling of data from the website
-
     def crawldata(self):
         self.db.createTable()
         self.reddit.crawl(self.db)
         self.twitter.crawl(self.db)
+        self.redditObject = socialMedia(self.db, "reddit")
+        self.twitterObject = socialMedia(self.db, "twitter")
         messagebox.showinfo("Popup", "Crawl Done")

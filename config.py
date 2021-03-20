@@ -1,6 +1,10 @@
 # Database credentials
 host = "localhost"
+<<<<<<< HEAD
 password = "password"
+=======
+password = "admin"
+>>>>>>> 7b7f613bd8be56c2d56d6dd569edab469e88faf7
 user = "root"
 database = "sqldatabase"
 
