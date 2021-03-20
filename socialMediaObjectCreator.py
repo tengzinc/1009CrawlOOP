@@ -161,12 +161,7 @@ class socialMedia:
             self.__overallSentiment+=self.__analyzeSentiment(x[3])
             rowCount+=1
         if rowCount!=0:
-<<<<<<< HEAD
-            self.__overallSentiment=self.__overallSentiment/rowCount
-        
-=======
             self.__overallSentiment=self.__overallSentiment/rowCount    
->>>>>>> 7b7f613bd8be56c2d56d6dd569edab469e88faf7
 
     def __categorizeSentiment(self):
         """
