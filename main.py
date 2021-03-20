@@ -3,7 +3,7 @@ from Database import Database
 from RedditCrawler import RedditCrawler
 from socialMediaObjectCreator import socialMedia
 from TwitterCrawler import TwitterCrawler
-from GUI import GUI
+# from GUI import GUI
 
 
 
@@ -26,19 +26,25 @@ from GUI import GUI
 # print("Twitter Crime Count      :",twitterObject.getCrimeScore())
 
 # print("\n\n")
-# redditObject= socialMedia(db,"reddit")
-# print("\treadReddit")
-# print("Reddit Sentiment score  :",redditObject.getSentimentScore())
-# print("Reddit Sentiment        :",redditObject.getSentiment())
-# print("Reddit Crime Count      :",redditObject.getCrimeScore())
 
 
 
 # #keyword = "kill"
 # #db.search(keyword)
 db = Database(c.host, c.user, c.password, c.database)
+print("start")
+
+
+redditObject= socialMedia(db,"reddit")
+
 reddit = RedditCrawler("Crimes", c.reddit_id, c.reddit_secret)
-twitter = TwitterCrawler(c.consumer_key, c.consumer_secret, c.access_token, c.access_token_secret)
-ui = GUI(db, reddit, twitter)
-ui.root.mainloop()
+print("\treadReddit")
+print("Reddit Sentiment score  :",redditObject.getSentimentScore())
+print("Reddit Sentiment        :",redditObject.getSentiment())
+print("Reddit Crime Count      :",redditObject.getCrimeScore())
+
+# reddit = RedditCrawler("Crimes", c.reddit_id, c.reddit_secret)
+# twitter = TwitterCrawler(c.consumer_key, c.consumer_secret, c.access_token, c.access_token_secret)
+# ui = GUI(db, reddit, twitter)
+# ui.root.mainloop()
 db.disconnect()

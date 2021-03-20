@@ -1,6 +1,6 @@
 # Database credentials
 host = "localhost"
-password = "mypass"
+password = "password"
 user = "root"
 database = "sqldatabase"
 
