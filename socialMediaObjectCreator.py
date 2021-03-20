@@ -177,19 +177,18 @@ class socialMedia:
                 returns the type of sentiment of the object
         """
         score = self.__overallSentiment
-        if score <= -0.35:
-            return "very very bad"
-        elif score <=-.75:
-            return "very bad"
-        elif score <0:
-            return "bad"
-        elif score <=.25:
-            return "neutral"
-        elif score <=5:
-            return "good"
-        elif score <=7.5:
-            return "very good"
+        if score < -0.4:
+            return "Worst"
+        elif score < -0.3:
+            return "Very Bad"
+        elif score < -0.1:
+            return "Bad"
+        elif score < 0.1:
+            return "Neutral"
+        elif score < 0.3:
+            return "Good"
+        elif score < 0.4:
+            return "Very Good"
         else:
-            return "very very good"
-
+            return "Best"
  

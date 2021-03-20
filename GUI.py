@@ -114,33 +114,22 @@ class GUI:
     #   newWindow = Toplevel(root)
     #   newWindow.title("Graph")
     #   newWindow.geometry("300x300")
-
-    # plotting function: To plot the graph
-    def tplotting(self):
-        objects = ('scam', 'drug', 'violence', 'sexOffence')
-        y_pos = np.arange(len(objects))
-        performance = [self.redditObject.getCrimeScore()]
-        plt.barh(y_pos, performance, align='center', alpha=0.7)
-        plt.yticks(y_pos, objects)
-        plt.ylabel('Category')
-        plt.xlabel('Frequency')
-        plt.title('Keyword Category in the News')
-
-        plt.show()
-
-        print("Plot")
     
     # plotting function: To plot the graph
     def plotting(self):
         key = list(self.redditObject.getCrimeScore().keys())
-        value = list(self.redditObject.getCrimeScore().values())
-        plt.bar(range(len(self.redditObject.getCrimeScore())),value,tick_label=key)
-        plt.xlabel('Category')
+        index = np.arange(len(key))
+        index1 = [x + 0.4 for x in index]
+        rvalue = list(self.redditObject.getCrimeScore().values())
+        tvalue = list(self.twitterObject.getCrimeScore().values())
+        p1 = plt.bar(index, rvalue, width=0.4, tick_label="reddit", color='r')
+        p2 = plt.bar(index1, tvalue, width=0.4, tick_label="twitter", color='b')
         plt.ylabel('Frequency')
+        plt.xlabel('Crimes')
+        plt.xticks([r + 0.2 for r in range(len(key))],key)
         plt.title('Keyword Category in the News')
-
+        plt.legend((p1[0],p2[0]), ('Reddit: '+self.redditObject.getSentiment(), 'Twitter: ' +self.twitterObject.getSentiment()))
         plt.show()
-
         print("Plot")
 
     # crawldata function: To start the crawling of data from the website
